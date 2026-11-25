@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Autorizare · AI habar, pe bune!</title>
+<style>
+  :root { --fundal:#1B1C20; --text:#F4F1EA; --accent:#FFD23F; --gri:#9A9DA6; }
+  body { margin:0; background:var(--fundal); color:var(--text); font:17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 56px 20px; }
+  h1 { font-size: 28px; }
+  code { display:block; background:#2A2C33; padding:14px; border-radius:10px; word-break:break-all; font-size:15px; }
+  button { margin-top:14px; background:var(--accent); color:#0E0F12; border:0; border-radius:10px; padding:10px 18px; font-weight:700; font-size:16px; cursor:pointer; }
+  .mic { color: var(--gri); font-size: 15px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Autorizare „AI habar - publicare”</h1>
+  <p id="mesaj">Se citește codul…</p>
+  <code id="cod"></code>
+  <button id="copiaza" hidden>Copiază codul</button>
+  <p class="mic">Pagina doar afișează codul primit de la platformă; nu trimite nimic nicăieri.</p>
+</main>
+<script>
+  const q = new URLSearchParams(location.search);
+  const cod = q.get('code'), eroare = q.get('error') || q.get('error_description');
+  const m = document.getElementById('mesaj'), c = document.getElementById('cod'), b = document.getElementById('copiaza');
+  if (cod) {
+    m.textContent = 'Autorizarea a reușit. Copiază codul de mai jos și trimite-l pentru configurare (e valabil câteva minute):';
+    c.textContent = cod; b.hidden = false;
+    b.onclick = () => navigator.clipboard.writeText(cod).then(() => { b.textContent = 'Copiat ✓'; });
+  } else {
+    m.textContent = eroare ? ('Autorizarea nu a reușit: ' + eroare) : 'Nu am primit niciun cod.';
+    c.hidden = true;
+  }
+</script>
+</body>
+</html>
